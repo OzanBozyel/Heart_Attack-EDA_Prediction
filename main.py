@@ -23,6 +23,8 @@ df = data.rename(columns={'trtbps':'rest_bps','thalachh':'thal',
 
 df1 = df.drop(labels=['slp','thall'], axis=1, inplace=False)
 
+columns = df1.columns
+
 
 print(df1.isnull().sum())
 
@@ -34,6 +36,29 @@ sns.heatmap(corr_Pearson,vmin=-1,vmax=+1,cmap='Blues',annot=True,
             linewidths=1,linecolor = 'white')
 plt.title('Pearson Correlation')
 plt.show()
+
+
+
+df1.hist(figsize=(15,10))
+plt.show()
+
+
+j = 0
+for i in columns:
+    j = j+1
+    if(j!=len(columns)):
+        sns.lineplot(x='mark', y=i,data=df1)
+        plt.show()
+    
+
+
+
+
+
+
+
+
+
 
 
 
