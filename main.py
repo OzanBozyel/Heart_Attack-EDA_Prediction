@@ -10,11 +10,11 @@ import numpy as np
 from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy.stats.stats import pearsonr
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
 from sklearn.linear_model import LogisticRegression,LinearRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
-
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_auc_score, roc_curve
 data = pd.read_csv("C:/Users/Ozan/Desktop/heart_attack/heart.csv")
 
 
@@ -122,15 +122,18 @@ KNN = KNeighborsClassifier().fit(x_train,y_train)
 Decision_Tree = DecisionTreeClassifier(random_state=44).fit(x_train,y_train)
 
 
-models = ['Linear_R','Logistic_R','KNN','Decision_Tree']
+models = [Linear_R,Logistic_R,KNN,Decision_Tree]
 
 
 
-
-
-
-
-
+score = []
+for model in models:
+    predict = model.predict(x_test)
+    CVS = cross_val_score(model,x_test,y_test).mean()
+    print(model)
+    print(CVS)
+    print('*'*20)
+    score.append(CVS)
 
 
 
