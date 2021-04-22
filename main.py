@@ -10,11 +10,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy.stats.stats import pearsonr
-from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LogisticRegression,LinearRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_auc_score, roc_curve
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+
 data = pd.read_csv("C:/Users/Ozan/Desktop/heart_attack/heart.csv")
 
 
@@ -112,7 +113,6 @@ x_train, x_test, y_train, y_test = train_test_split(data_x, data_y ,
 
 
 
-
 Linear_R = LinearRegression().fit(x_train,y_train)
 
 Logistic_R = LogisticRegression(solver="liblinear").fit(x_train,y_train)
@@ -126,15 +126,27 @@ models = [Linear_R,Logistic_R,KNN,Decision_Tree]
 
 
 
-score = []
+total = pd.DataFrame(columns=['Score','Model'])
 for model in models:
     predict = model.predict(x_test)
-    CVS = cross_val_score(model,x_test,y_test).mean()
+    cvs = cross_val_score(model,x_test,y_test).mean()
+    name = model.__class__.__name__
+    result = pd.DataFrame([cvs,name],columns=['Score','Model'])
     print(model)
-    print(CVS)
+    print(cvs)
     print('*'*20)
-    score.append(CVS)
+    total.append(result)
 
+'''
+score = pd.DataFrame(dict(Score = total, Model = models))
+best_score = score.sort_values(by='Score',ascending = False)
+best_model = best_score.iloc[:1]['Model']
+
+best_predict = best_model.predict(x_test)
+evaluating_score = cross_val_score(best_model,x_test,y_test).mean()
+
+
+'''
 
 
 
