@@ -14,7 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
 
-data = pd.read_csv("-------------/heart_attack/heart.csv")
+data = pd.read_csv("-------------/heart.csv")
 
 
 # Data Manipulation
